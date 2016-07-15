@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+
+  mysql:
+    container_name: s
+    build: ./mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: sample
+    volumes:
+      - ./dbData:/var/lib/mysql
+      - ./initData:/docker-entrypoint-initdb.d
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - '3307:3306'
+
+  phpfpm:
+    build: ./phpfpm
+    volumes:
+      - ./www:/var/www/html
+      - /etc/localtime:/etc/localtime:ro
+    links:
+      - mysql:mysql
+#    entrypoint: /etc/services.sh
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - ./www:/var/www/html
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      VIRTUAL_HOST: sample.lcl
+    links:
+      - phpfpm:php
+
+  proxy:
+    image: jwilder/nginx-proxy
+    volumes:
+     - /var/run/docker.sock:/tmp/docker.sock:ro
+     - /etc/localtime:/etc/localtime:ro
+    ports:
+     - '80:80'
