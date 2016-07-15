@@ -3,10 +3,9 @@ version: '2'
 services:
 
   mysql:
-    container_name: s
     build: ./mysql
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: sample
     volumes:
       - ./dbData:/var/lib/mysql
@@ -22,7 +21,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
     links:
       - mysql:mysql
-#    entrypoint: /etc/services.sh
 
   nginx:
     build: ./nginx
