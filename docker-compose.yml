@@ -12,7 +12,7 @@ services:
       - ./initData:/docker-entrypoint-initdb.d
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - '3307:3306'
+      - '26129:3306'
 
   phpfpm:
     build: ./phpfpm
