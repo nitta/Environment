@@ -8,8 +8,8 @@ services:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: sample
     volumes:
-      - ./dbData:/var/lib/mysql
-      - ./initData:/docker-entrypoint-initdb.d
+      - ./mysql/dbData:/var/lib/mysql
+      - ./mysql/initData:/docker-entrypoint-initdb.d
       - /etc/localtime:/etc/localtime:ro
     ports:
       - '26129:3306'
